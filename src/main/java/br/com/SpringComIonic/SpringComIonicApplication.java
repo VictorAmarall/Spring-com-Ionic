@@ -9,10 +9,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import br.com.SpringComIonic.Entity.Categoria;
 import br.com.SpringComIonic.Entity.Cidade;
+import br.com.SpringComIonic.Entity.Cliente;
+import br.com.SpringComIonic.Entity.Endereco;
 import br.com.SpringComIonic.Entity.Estado;
 import br.com.SpringComIonic.Entity.Produto;
+import br.com.SpringComIonic.Entity.enums.TipoCliente;
 import br.com.SpringComIonic.Repository.CategoriaRepository;
 import br.com.SpringComIonic.Repository.CidadeRepository;
+import br.com.SpringComIonic.Repository.ClienteRepository;
+import br.com.SpringComIonic.Repository.EnderecoRepository;
 import br.com.SpringComIonic.Repository.EstadoRepository;
 import br.com.SpringComIonic.Repository.ProdutoRepository;
 
@@ -27,6 +32,10 @@ public class SpringComIonicApplication implements CommandLineRunner{
 	private EstadoRepository estadoRepo;
 	@Autowired
 	private CidadeRepository cidadeRepo;
+	@Autowired
+	private EnderecoRepository enderecoRepo;
+	@Autowired
+	private ClienteRepository clienteRepo;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(SpringComIonicApplication.class, args);
@@ -64,6 +73,17 @@ public class SpringComIonicApplication implements CommandLineRunner{
 		
 		estadoRepo.save(Arrays.asList(est1,est2));
 		cidadeRepo.save(Arrays.asList(c1,c2,c3));
+		
+		Cliente cli1 = new Cliente(null, "Maria", "maria@gmail.com", "232139988", TipoCliente.PESSOAFISICA);
+		cli1.getTelefones().addAll(Arrays.asList("321231231","2131232134"));
+		
+		Endereco e1 = new Endereco(null, "Rua Flores","300" ,"Apto 303","Jardim", "31244", cli1, c1);
+		Endereco e2 = new Endereco(null, "Avenida MAtos","105" ,"Sala 800","Centro", "765432", cli1, c2);
+		
+		cli1.getEnderecos().addAll(Arrays.asList(e1,e2));
+		
+		clienteRepo.save(Arrays.asList(cli1));
+		enderecoRepo.save(Arrays.asList(e1,e2));
 		
 		
 		
