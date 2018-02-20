@@ -13,6 +13,7 @@ import br.com.SpringComIonic.Entity.Cidade;
 import br.com.SpringComIonic.Entity.Cliente;
 import br.com.SpringComIonic.Entity.Endereco;
 import br.com.SpringComIonic.Entity.Estado;
+import br.com.SpringComIonic.Entity.ItemPedido;
 import br.com.SpringComIonic.Entity.Pagamento;
 import br.com.SpringComIonic.Entity.PagamentoComBoleto;
 import br.com.SpringComIonic.Entity.PagamentoComCartao;
@@ -25,6 +26,7 @@ import br.com.SpringComIonic.Repository.CidadeRepository;
 import br.com.SpringComIonic.Repository.ClienteRepository;
 import br.com.SpringComIonic.Repository.EnderecoRepository;
 import br.com.SpringComIonic.Repository.EstadoRepository;
+import br.com.SpringComIonic.Repository.ItemPedidoRepository;
 import br.com.SpringComIonic.Repository.PagamentoRepository;
 import br.com.SpringComIonic.Repository.PedidoRepository;
 import br.com.SpringComIonic.Repository.ProdutoRepository;
@@ -48,6 +50,8 @@ public class SpringComIonicApplication implements CommandLineRunner{
 	private PagamentoRepository pagamentoRepo;
 	@Autowired
 	private PedidoRepository pedidoRepo;
+	@Autowired
+	private ItemPedidoRepository itemPedidoRepo;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(SpringComIonicApplication.class, args);
@@ -113,6 +117,18 @@ public class SpringComIonicApplication implements CommandLineRunner{
 		pedidoRepo.save(Arrays.asList(ped1,ped2));
 		pagamentoRepo.save(Arrays.asList(pagto1,pagto2));
 		
+		ItemPedido ip1 = new ItemPedido(ped1, p1, 0.00, 1, 2000.00);
+		ItemPedido ip2 = new ItemPedido(ped1, p3, 0.00, 2, 80.00);
+		ItemPedido ip3 = new ItemPedido(ped2, p2, 100.00, 1, 800.00);
+		
+		ped1.getItens().addAll(Arrays.asList(ip1,ip2));
+		ped2.getItens().addAll(Arrays.asList(ip3));
+		
+		p1.getItens().addAll(Arrays.asList(ip1));
+		p2.getItens().addAll(Arrays.asList(ip3));
+		p3.getItens().addAll(Arrays.asList(ip2));
+		
+		itemPedidoRepo.save(Arrays.asList(ip1,ip2,ip3));
 		
 	}
 }
